@@ -1,5 +1,9 @@
 package net.mochinekoserver.paint_battle;
 
+import net.mochinekoserver.paint_battle.command.GameStartCommand;
+import net.mochinekoserver.paint_battle.command.KitCommand;
+import net.mochinekoserver.paint_battle.command.TeamCommand;
+import net.mochinekoserver.paint_battle.listener.PlayerInteractListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
@@ -8,6 +12,13 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
 
+        var plm = getServer().getPluginManager();
+        plm.registerEvents(new PlayerInteractListener(), this);
+
+        getCommand("game_start").setExecutor(new GameStartCommand());
+        getCommand("game_stop").setExecutor(new GameStartCommand());
+        getCommand("game_team").setExecutor(new TeamCommand());
+        getCommand("kit_select").setExecutor(new KitCommand());
     }
 
     @Override

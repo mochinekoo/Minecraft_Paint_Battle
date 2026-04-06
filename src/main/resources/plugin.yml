@@ -10,3 +10,9 @@ commands:
   game_stop:
     description: ゲームを停止するコマンド
     permission: paintbattle.game_stop
+  game_team:
+    description: チームに関するコマンド
+    permission: paintbattle.game_team
+  kit_select:
+    description: キットを選択するコマンド
+    permission: paintbattle.kit_select

@@ -1,6 +1,9 @@
 package net.mochinekoserver.paint_battle.manager;
 
 import net.mochinekoserver.paint_battle.library.KitBase;
+import net.mochinekoserver.paint_battle.status.KitType;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +23,11 @@ public class KitManager {
 
     public void setKit(UUID uuid, KitBase kit) {
         kit_map.put(uuid, kit);
+    }
+
+    public void setKit(UUID uuid, KitType type) {
+        OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+        setKit(uuid, type.newInstance(player));
     }
 
     public KitBase getKit(UUID uuid) {
