@@ -4,6 +4,7 @@ import net.mochinekoserver.paint_battle.command.GameStartCommand;
 import net.mochinekoserver.paint_battle.command.KitCommand;
 import net.mochinekoserver.paint_battle.command.TeamCommand;
 import net.mochinekoserver.paint_battle.listener.PlayerInteractListener;
+import net.mochinekoserver.paint_battle.listener.ProjectileHitListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
@@ -14,6 +15,7 @@ public final class Main extends JavaPlugin {
 
         var plm = getServer().getPluginManager();
         plm.registerEvents(new PlayerInteractListener(), this);
+        plm.registerEvents(new ProjectileHitListener(), this);
 
         getCommand("game_start").setExecutor(new GameStartCommand());
         getCommand("game_stop").setExecutor(new GameStartCommand());
