@@ -1,21 +1,25 @@
 package net.mochinekoserver.paint_battle.library;
 
+import net.mochinekoserver.paint_battle.status.KitType;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 public abstract class KitBase {
 
-    private String kit_name;
+    private KitType kitType;
     protected OfflinePlayer offlineplayer;
     protected float health;
     protected boolean canUse;
 
-    public KitBase(String kit_name) {
-        this.kit_name = kit_name;
+    public KitBase(KitType kitType) {
+        this.kitType = kitType;
     }
 
-    public String getName() {
-        return kit_name;
+    /**
+     * キットの種類
+     */
+    public KitType getType() {
+        return kitType;
     }
 
     /**

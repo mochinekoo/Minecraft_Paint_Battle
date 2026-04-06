@@ -1,6 +1,7 @@
 package net.mochinekoserver.paint_battle.kit;
 
 import net.mochinekoserver.paint_battle.library.KitBase;
+import net.mochinekoserver.paint_battle.status.KitType;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -10,7 +11,7 @@ import org.bukkit.util.Vector;
 public class TestKit extends KitBase {
 
     public TestKit(OfflinePlayer offlinePlayer) {
-        super("TestKit");
+        super(KitType.TEST_KIT);
         this.offlineplayer = offlinePlayer;
         this.health = 100;
         this.canUse = true;
