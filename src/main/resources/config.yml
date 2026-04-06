@@ -1,0 +1,17 @@
+location:
+  world_name: world
+  team:
+    red:
+      spawn:
+        x: 0
+        y: 100
+        z: 0
+    blue:
+      spawn:
+        x: 0
+        y: 100
+        z: 0
+  lobby:
+    x: 0
+    y: 100
+    z: 0
