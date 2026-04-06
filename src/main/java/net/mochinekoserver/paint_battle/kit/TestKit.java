@@ -23,6 +23,7 @@ public class TestKit extends KitBase {
         Vector direction = loc.getDirection();
         Vector newVec = direction.multiply(2);
         Snowball snowBall = player.getWorld().spawn(loc, Snowball.class);
+        snowBall.setCustomName(player.getName());
         snowBall.setVelocity(newVec);
     }
 
