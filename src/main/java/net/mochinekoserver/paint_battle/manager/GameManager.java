@@ -1,17 +1,37 @@
 package net.mochinekoserver.paint_battle.manager;
 
 import net.mochinekoserver.paint_battle.Main;
+import net.mochinekoserver.paint_battle.json.BlockGuardJson;
 import net.mochinekoserver.paint_battle.library.GameBase;
+import net.mochinekoserver.paint_battle.status.FileType;
 import net.mochinekoserver.paint_battle.status.GameStatus;
+import net.mochinekoserver.paint_battle.status.GameTeam;
 import net.mochinekoserver.paint_battle.util.ChatUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class GameManager extends GameBase {
 
     private static GameManager instance;
+    private static final BlockGuardJson json = (BlockGuardJson) new JsonManager(FileType.CONFIG).getDeserializedJson();
+    private BossBar bossBar;
+    private List<Location> allCount = new ArrayList<>();
 
-    private GameManager() {}
+    private GameManager() {
+        this.bossBar = Bukkit.createBossBar("0%：0%", BarColor.BLUE, BarStyle.SEGMENTED_20);
+    }
 
     public static GameManager getInstance() {
         if (instance == null) instance = new GameManager();
@@ -31,6 +51,11 @@ public class GameManager extends GameBase {
                     if (countTime <= 0) {
                         ChatUtil.sendGlobalInfoMessage("ゲーム開始!");
                         setStatus(GameStatus.RUNNING);
+
+                        bossBar.show();
+                        for (Player online : Bukkit.getOnlinePlayers()) {
+                            bossBar.addPlayer(online);
+                        }
                     }
                     else {
                         String message = String.format("ゲームを開始まであと%d秒", countTime);
@@ -40,6 +65,9 @@ public class GameManager extends GameBase {
                     }
                 }
                 else if (getStatus() == GameStatus.RUNNING) {
+                    String format = "%,.1f%% : %,.1f%%";
+                    bossBar.setTitle(format.formatted(getArea(GameTeam.RED) * 100, getArea(GameTeam.BLUE) * 100));
+
                     subtractTime(1);
                 }
             }
@@ -50,6 +78,42 @@ public class GameManager extends GameBase {
 
     @Override
     public void resetGame() {
-
+        bossBar.hide();
+        ConfigManager configManager = ConfigManager.getInstance();
+        Map<String, BlockGuardJson.GuardData> guardData = json.getGuardData();
+        var guard = guardData.get("game_area");
+        var start = guard.getStartLocation();
+        var end = guard.getEndLocation();
+        Location min = new Location(configManager.getGameWorld(),
+                Math.min(start.getBlockX(), end.getBlockX()),
+                Math.min(start.getBlockY(), end.getBlockY()),
+                Math.min(start.getBlockZ(), end.getBlockZ()));
+        Location max = new Location(configManager.getGameWorld(),
+                Math.max(start.getBlockX(), end.getBlockX()),
+                Math.max(start.getBlockY(), end.getBlockY()),
+                Math.max(start.getBlockZ(), end.getBlockZ()));
+        for (int x = min.getBlockX(); x < max.getBlockX(); ++x) {
+            for (int y = min.getBlockY(); y < max.getBlockY(); ++y) {
+                for (int z = min.getBlockZ(); z < max.getBlockZ(); ++z) {
+                    Location loc = new Location(configManager.getGameWorld(), x, y, z);
+                    var block = loc.getBlock();
+                    if (block.getType() != Material.AIR) {
+                        allCount.add(block.getLocation());
+                    }
+                }
+            }
+        }
     }
+
+    private float getArea(GameTeam team) {
+        int count = 0;
+        for (Location loc : allCount) {
+            Block block = loc.getBlock();
+            if (block.getType() == team.getTeamBlock()) {
+                count++;
+            }
+        }
+        return (float) count / allCount.size();
+    }
+
 }

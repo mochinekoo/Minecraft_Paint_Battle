@@ -7,8 +7,10 @@ import net.mochinekoserver.paint_battle.listener.BlockBreakListener;
 import net.mochinekoserver.paint_battle.listener.PlayerChatListener;
 import net.mochinekoserver.paint_battle.listener.PlayerInteractListener;
 import net.mochinekoserver.paint_battle.listener.ProjectileHitListener;
+import net.mochinekoserver.paint_battle.manager.GameManager;
 import net.mochinekoserver.paint_battle.manager.JsonManager;
 import net.mochinekoserver.paint_battle.status.FileType;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
@@ -22,6 +24,7 @@ public final class Main extends JavaPlugin {
         for (FileType fileType : FileType.values()) {
             new JsonManager(fileType).createJson();
         }
+        GameManager.getInstance().resetGame();
 
         var plm = getServer().getPluginManager();
         plm.registerEvents(new PlayerInteractListener(), this);
@@ -38,5 +41,6 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        GameManager.getInstance().resetGame();
     }
 }
