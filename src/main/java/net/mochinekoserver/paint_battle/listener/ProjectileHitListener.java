@@ -33,7 +33,7 @@ public class ProjectileHitListener implements Listener {
                 //
             }
             else {
-                hitBlock.setType(playerTeam.getTeamBlock());
+                hitBlock.setType(playerTeam.getTeamBlock(), true);
             }
         }
     }

@@ -1,6 +1,7 @@
 package net.mochinekoserver.paint_battle.library;
 
 import net.mochinekoserver.paint_battle.status.KitType;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -48,7 +49,7 @@ public abstract class KitBase {
      * この武器を持っているプレイヤー（オンライン）
      */
     public Player getPlayer() {
-        return offlineplayer.getPlayer();
+        return Bukkit.getPlayer(offlineplayer.getUniqueId());
     }
 
     public abstract void fireKit();
