@@ -13,7 +13,8 @@ import java.util.Arrays;
 import java.util.UUID;
 
 public enum KitType {
-    TEST_KIT(TestKit.class,
+    TEST_KIT("テストキット",
+            TestKit.class,
             new ItemUtil(
                     Material.BEDROCK,
                     ChatColor.GOLD + "テスト武器",
@@ -23,13 +24,17 @@ public enum KitType {
                     .buildItemStack()
     );
 
+    private final String name;
     private final Class<? extends KitBase> kit_class;
     private final ItemStack itemStack;
 
-    KitType(Class<? extends KitBase> kit_class, ItemStack itemStack) {
+    KitType(String name, Class<? extends KitBase> kit_class, ItemStack itemStack) {
+        this.name = name;
         this.kit_class = kit_class;
         this.itemStack = itemStack;
     }
+
+    public String getName() {return name;}
 
     public Class<? extends KitBase> getKitClass() {
         return kit_class;

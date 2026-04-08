@@ -1,5 +1,7 @@
 package net.mochinekoserver.paint_battle.listener;
 
+import net.mochinekoserver.paint_battle.factory.PluginItemFactory;
+import net.mochinekoserver.paint_battle.gui.KitSelectGUI;
 import net.mochinekoserver.paint_battle.manager.KitManager;
 import net.mochinekoserver.paint_battle.status.ItemStackProperty;
 import net.mochinekoserver.paint_battle.util.ItemUtil;
@@ -12,7 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class PlayerInteractListener implements Listener {
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent event) {
+    public void onKitClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         var inv = player.getInventory();
         var mainHand = inv.getItemInMainHand();
@@ -25,6 +27,19 @@ public class PlayerInteractListener implements Listener {
         if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK ||
             action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
             kit.fireKit();
+        }
+    }
+
+    @EventHandler
+    public void onItemClick(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        var inv = player.getInventory();
+        var mainHand = inv.getItemInMainHand();
+        var action = event.getAction();
+
+        if (action == Action.PHYSICAL) return;
+        if (mainHand.isSimilar(PluginItemFactory.createKitSelector())) {
+            KitSelectGUI.openGUI(player);
         }
     }
 

@@ -2,6 +2,7 @@ package net.mochinekoserver.paint_battle.manager;
 
 import net.mochinekoserver.paint_battle.library.KitBase;
 import net.mochinekoserver.paint_battle.status.KitType;
+import net.mochinekoserver.paint_battle.util.ChatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -32,6 +33,7 @@ public class KitManager {
     public void setKit(UUID uuid, KitType type) {
         OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
         setKit(uuid, type.newInstance(player));
+        ChatUtil.sendInfoMessage(player.getPlayer(), type.getName() + "が選ばれました。");
     }
 
     public KitBase getKit(UUID uuid) {

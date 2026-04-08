@@ -1,10 +1,12 @@
 package net.mochinekoserver.paint_battle.util;
 
+import net.mochinekoserver.paint_battle.Main;
 import net.mochinekoserver.paint_battle.status.ItemStackProperty;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
 import java.util.List;
