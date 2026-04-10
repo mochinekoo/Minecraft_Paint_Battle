@@ -2,6 +2,7 @@ package net.mochinekoserver.paint_battle.listener;
 
 import net.mochinekoserver.paint_battle.json.BlockGuardJson;
 import net.mochinekoserver.paint_battle.manager.JsonManager;
+import net.mochinekoserver.paint_battle.manager.KitManager;
 import net.mochinekoserver.paint_battle.manager.TeamManager;
 import net.mochinekoserver.paint_battle.status.FileType;
 import org.bukkit.Bukkit;
@@ -19,21 +20,22 @@ public class ProjectileHitListener implements Listener {
 
     @EventHandler
     public void onHit(ProjectileHitEvent event){
-        var entity = event.getEntity();
-        var hitBlock = event.getHitBlock();
+        var entity = event.getEntity(); //エンティティ
+        var hitBlock = event.getHitBlock(); //当たったブロック
         var teamManager = TeamManager.getInstance();
-        var player = Bukkit.getOfflinePlayer(entity.getName());
-        var playerTeam = teamManager.getJoinGameTeam(player);
-        if (hitBlock == null) return;
+        var player = Bukkit.getOfflinePlayer(entity.getName()); //プレイヤー（エンティティのカスタムネームから割り出す）
+        var playerTeam = teamManager.getJoinGameTeam(player); //プレイヤーが参加しているチーム
+        var kit = KitManager.getInstance().getKit(player.getUniqueId());
+        if (hitBlock == null) return; //当たったブロックがない場合は飛ばす
 
         Map<String, BlockGuardJson.GuardData> guardData = json.getGuardData();
         var guard = guardData.get("game_area");
-        if (guard.isAABB(hitBlock.getLocation())) {
+        if (guard.isAABB(hitBlock.getLocation())) { //ゲームエリア内である
             if (playerTeam == null) {
                 //
             }
             else {
-                hitBlock.setType(playerTeam.getTeamBlock(), true);
+                kit.setBlock(hitBlock.getLocation());
             }
         }
     }

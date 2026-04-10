@@ -2,8 +2,11 @@ package net.mochinekoserver.paint_battle.library;
 
 import net.mochinekoserver.paint_battle.status.KitType;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 public abstract class KitBase {
 
@@ -52,5 +55,15 @@ public abstract class KitBase {
         return Bukkit.getPlayer(offlineplayer.getUniqueId());
     }
 
+    /**
+     * キットを発動させる関数（例：雪玉を設置する等）
+     * @apiNote {@link PlayerInteractEvent} などでこの関数を呼び出す
+     */
     public abstract void fireKit();
+
+    /**
+     * ブロックを塗る関数
+     * @apiNote {@link ProjectileHitEvent} などでこの関数を呼び出す
+     */
+    public abstract void setBlock(Location centerLoc);
 }

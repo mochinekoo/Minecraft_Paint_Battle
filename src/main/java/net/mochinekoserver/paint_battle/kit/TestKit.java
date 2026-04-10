@@ -1,6 +1,7 @@
 package net.mochinekoserver.paint_battle.kit;
 
 import net.mochinekoserver.paint_battle.library.KitBase;
+import net.mochinekoserver.paint_battle.manager.TeamManager;
 import net.mochinekoserver.paint_battle.status.KitType;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -17,6 +18,7 @@ public class TestKit extends KitBase {
         this.canUse = true;
     }
 
+    @Override
     public void fireKit() {
         Player player = getPlayer();
         Location loc = player.getLocation();
@@ -25,6 +27,12 @@ public class TestKit extends KitBase {
         Snowball snowBall = player.getWorld().spawn(loc, Snowball.class);
         snowBall.setCustomName(player.getName());
         snowBall.setVelocity(newVec);
+    }
+
+    @Override
+    public void setBlock(Location centerLoc) {
+        var playerTeam = TeamManager.getInstance().getJoinGameTeam(getPlayer());
+        centerLoc.getBlock().setType(playerTeam.getTeamBlock(), true);
     }
 
 }
