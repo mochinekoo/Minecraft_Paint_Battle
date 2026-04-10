@@ -35,6 +35,7 @@ public final class Main extends JavaPlugin {
         plm.registerEvents(new BlockBreakListener(), this);
         plm.registerEvents(new PlayerChatListener(), this);
         plm.registerEvents(new InventoryClickListener(), this);
+        plm.registerEvents(new PlayerMoveListener(), this);
 
         getCommand("game_start").setExecutor(new GameStartCommand());
         getCommand("game_stop").setExecutor(new GameStartCommand());

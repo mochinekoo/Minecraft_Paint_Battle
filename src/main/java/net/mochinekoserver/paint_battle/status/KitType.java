@@ -1,5 +1,6 @@
 package net.mochinekoserver.paint_battle.status;
 
+import net.mochinekoserver.paint_battle.kit.Roller;
 import net.mochinekoserver.paint_battle.kit.TestKit;
 import net.mochinekoserver.paint_battle.library.KitBase;
 import net.mochinekoserver.paint_battle.util.ItemUtil;
@@ -19,6 +20,16 @@ public enum KitType {
                     Material.BEDROCK,
                     ChatColor.GOLD + "テスト武器",
                     Arrays.asList(ChatColor.GOLD + "これはテスト武器です")
+            )
+                    .setProperty(ItemStackProperty.KIT_ITEM)
+                    .buildItemStack()
+    ),
+    ROLLER("ローラー",
+            Roller.class,
+            new ItemUtil(
+                    Material.WOODEN_PICKAXE,
+                    ChatColor.GOLD + "ローラー",
+                    Arrays.asList(ChatColor.GOLD + "現実のローラーのように、動くだけで色を塗ることができます!")
             )
                     .setProperty(ItemStackProperty.KIT_ITEM)
                     .buildItemStack()
