@@ -8,6 +8,7 @@ import net.mochinekoserver.paint_battle.status.GameStatus;
 import net.mochinekoserver.paint_battle.status.GameTeam;
 import net.mochinekoserver.paint_battle.util.ChatUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -72,8 +73,17 @@ public class GameManager extends GameBase {
                     }
                 }
                 else if (getStatus() == GameStatus.RUNNING) {
-                    String format = "%,.1f%% : %,.1f%%";
-                    bossBar.setTitle(format.formatted(getArea(GameTeam.RED) * 100, getArea(GameTeam.BLUE) * 100));
+                    String format = ChatColor.RED + "%,.1f%%" + ChatColor.RESET + "(%d:%d)" + ChatColor.BLUE + "%,.1f%%";
+                    int time = getTime();
+                    int hour = time / 3600;
+                    int min = (time % 3600) / 60;
+                    int sec = time % 60;
+
+                    bossBar.setTitle(format.formatted(
+                            getArea(GameTeam.RED) * 100,
+                            min,
+                            sec,
+                            getArea(GameTeam.BLUE) * 100));
 
                     subtractTime(1);
                 }

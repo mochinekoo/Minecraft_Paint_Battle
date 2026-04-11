@@ -11,7 +11,7 @@ public abstract class GameBase {
     private boolean isActive;
 
     public GameBase() {
-        this.time = 0;
+        this.time = 60*15;
         this.status = GameStatus.WAITING;
     }
 
