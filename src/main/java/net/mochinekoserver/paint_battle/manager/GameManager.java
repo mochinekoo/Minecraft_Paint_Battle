@@ -30,7 +30,8 @@ public class GameManager extends GameBase {
     private List<Location> allCount = new ArrayList<>();
 
     private GameManager() {
-        this.bossBar = Bukkit.createBossBar("0%：0%", BarColor.BLUE, BarStyle.SEGMENTED_20);
+        this.bossBar = Bukkit.createBossBar("ゲーム開始待機中...", BarColor.BLUE, BarStyle.SEGMENTED_20);
+        this.bossBar.setVisible(true);
     }
 
     public static GameManager getInstance() {
@@ -78,7 +79,6 @@ public class GameManager extends GameBase {
 
     @Override
     public void resetGame() {
-        bossBar.hide();
         ConfigManager configManager = ConfigManager.getInstance();
         Map<String, BlockGuardJson.GuardData> guardData = json.getGuardData();
         var guard = guardData.get("game_area");
@@ -114,6 +114,10 @@ public class GameManager extends GameBase {
             }
         }
         return (float) count / allCount.size();
+    }
+
+    public BossBar getGameBossBar() {
+        return bossBar;
     }
 
 }

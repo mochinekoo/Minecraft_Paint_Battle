@@ -18,10 +18,14 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        var gameManager = GameManager.getInstance();
+        var bossbar = gameManager.getGameBossBar();
+        gameManager.resetGame();
         for (Player player : Bukkit.getOnlinePlayers()) {
             var inv = player.getInventory();
             inv.clear();
             inv.addItem(PluginItemFactory.createKitSelector());
+            bossbar.addPlayer(player);
         }
 
         saveDefaultConfig();
@@ -29,7 +33,6 @@ public final class Main extends JavaPlugin {
         for (FileType fileType : FileType.values()) {
             new JsonManager(fileType).createJson();
         }
-        GameManager.getInstance().resetGame();
 
         var plm = getServer().getPluginManager();
         plm.registerEvents(new PlayerInteractListener(), this);
@@ -38,6 +41,7 @@ public final class Main extends JavaPlugin {
         plm.registerEvents(new PlayerChatListener(), this);
         plm.registerEvents(new InventoryClickListener(), this);
         plm.registerEvents(new PlayerMoveListener(), this);
+        plm.registerEvents(new PlayerJoinQuitListener(), this);
 
         getCommand("game_start").setExecutor(new GameStartCommand());
         getCommand("game_stop").setExecutor(new GameStartCommand());
@@ -48,6 +52,8 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        GameManager.getInstance().resetGame();
+        var gameManager = GameManager.getInstance();
+        gameManager.resetGame();
+        gameManager.getGameBossBar().hide();
     }
 }
