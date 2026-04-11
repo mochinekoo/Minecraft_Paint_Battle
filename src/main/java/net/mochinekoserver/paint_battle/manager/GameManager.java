@@ -44,6 +44,8 @@ public class GameManager extends GameBase {
         if (isGameActive()) return -1;
         if (getStatus() != GameStatus.WAITING) return -1;
 
+        var teamManager = TeamManager.getInstance();
+        var configManager = ConfigManager.getInstance();
         BukkitTask task = new BukkitRunnable() {
             int countTime = 10;
             @Override
@@ -53,9 +55,13 @@ public class GameManager extends GameBase {
                         ChatUtil.sendGlobalInfoMessage("ゲーム開始!");
                         setStatus(GameStatus.RUNNING);
 
+                        teamManager.assignTeam();
                         bossBar.show();
                         for (Player online : Bukkit.getOnlinePlayers()) {
+                            var gameTeam = teamManager.getJoinGameTeam(online);
                             bossBar.addPlayer(online);
+                            var teamSpawn = configManager.getTeamSpawnLocation(gameTeam);
+                            online.teleport(teamSpawn);
                         }
                     }
                     else {
