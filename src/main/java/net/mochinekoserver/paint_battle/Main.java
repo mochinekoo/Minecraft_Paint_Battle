@@ -19,7 +19,9 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.getInventory().addItem(PluginItemFactory.createKitSelector());
+            var inv = player.getInventory();
+            inv.clear();
+            inv.addItem(PluginItemFactory.createKitSelector());
         }
 
         saveDefaultConfig();
