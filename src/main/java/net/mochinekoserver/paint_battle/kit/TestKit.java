@@ -21,12 +21,20 @@ public class TestKit extends KitBase {
     @Override
     public void fireKit() {
         Player player = getPlayer();
-        Location loc = player.getLocation();
-        Vector direction = loc.getDirection();
-        Vector newVec = direction.multiply(2);
-        Snowball snowBall = player.getWorld().spawn(loc, Snowball.class);
-        snowBall.setCustomName(player.getName());
-        snowBall.setVelocity(newVec);
+        Location loc = player.getEyeLocation().clone();
+        Vector direction = loc.getDirection().normalize().clone();
+        var amount = 5;
+        var totalAngle = Math.toRadians(180);
+        var duration = totalAngle / amount;
+        var start = -totalAngle / 2;
+        for (int i = 0; i < amount; i++) {
+            double angle = start + (duration * i);
+            Vector newVec = direction.clone().rotateAroundY(angle).multiply(0.5);
+            Snowball snowBall = player.getWorld().spawn(loc, Snowball.class);
+            snowBall.setCustomName(player.getName());
+            snowBall.setVelocity(newVec);
+        }
+
     }
 
     @Override
